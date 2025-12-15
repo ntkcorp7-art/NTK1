@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEAVC Gabon - Petite Église Apostolique Vieille Catholique</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a4d2e;
+            --secondary-color: #d4af37;
+            --accent-color: #8b4513;
+            --light-bg: #f8f6f0;
+            --white: #ffffff;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --border-color: #e0d9c8;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d6a4f 100%);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .logo-text h1 {
+            color: var(--white);
+            font-size: 1.6rem;
+            margin: 0;
+        }
+
+        .logo-text p {
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            display: block;
+            transition: all 0.3s;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--secondary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 77, 46, 0.95), rgba(45, 106, 79, 0.9)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%231a4d2e" width="1200" height="600"/><path fill="%232d6a4f" opacity="0.3" d="M0 300L50 320 100 280 150 310 200 290 250 330 300 300 350 340 400 310 450 350 500 320 550 360 600 330 650 370 700 340 750 380 800 350 850 390 900 360 950 400 1000 370 1050 410 1100 380 1150 420 1200 390V600H0Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(26, 77, 46, 0.4) 100%);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.95);
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .divider {
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-color);
+            margin: 1rem auto;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(-25%, -25%); }
+            50% { transform: translate(0%, 0%); }
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .card-content p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .card-meta i {
+            color: var(--secondary-color);
+        }
+
+        /* News Feed */
+        .news-item {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .news-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .news-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.3rem;
+        }
+
+        .news-info h4 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.2rem;
+        }
+
+        .news-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .news-content {
+            margin: 1.5rem 0;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        .news-media {
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .news-media img,
+        .news-media video {
+            width: 100%;
+            display: block;
+        }
+
+        .news-actions {
+            display: flex;
+            gap: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .news-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .news-action:hover {
+            color: var(--primary-color);
+        }
+
+        /* Parish Grid */
+        .parish-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .parish-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .parish-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .parish-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .parish-info {
+            margin-top: 1rem;
+        }
+
+        .parish-info p {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.7rem;
+            color: var(--text-light);
+        }
+
+        .parish-info i {
+            color: var(--secondary-color);
+            width: 20px;
+        }
+
+        /* Contact Form */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details p {
+            color: var(--text-light);
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), #2d6a4f);
+            color: var(--white);
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Add News Button */
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), #c19b2e);
+            color: var(--white);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+            transition: all 0.3s;
+            z-index: 999;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.7);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 2rem;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--light-bg);
+            color: var(--primary-color);
+        }
+
+        .modal h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-color);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Sample data
+        const initialNews = [
+            {
+                id: 1,
+                author: "PEAVC Gabon",
+                date: "Il y a 2 heures",
+                content: "Célébration de la messe dominicale à la paroisse Saint-Michel de Libreville. Une belle assemblée de fidèles venus célébrer ensemble la gloire du Seigneur. Que la paix du Christ soit toujours avec vous ! 🙏✨",
+                image: null,
+                likes: 45,
+                comments: 12
+            },
+            {
+                id: 2,
+                author: "Paroisse Sainte-Marie",
+                date: "Hier à 15:30",
+                content: "Distribution de vivres aux familles nécessiteuses dans le cadre de notre mission caritative. Ensemble, nous sommes la lumière du monde. Merci à tous les bénévoles pour leur dévouement. ❤️",
+                image: null,
+                likes: 78,
+                comments: 23
+            },
+            {
+                id: 3,
+                author: "PEAVC Gabon",
+                date: "Il y a 3 jours",
+                content: "Session de formation biblique pour les catéchistes. L'enseignement de la Parole de Dieu est au cœur de notre mission. Que l'Esprit Saint guide nos pas ! 📖",
+                image: null,
+                likes: 62,
+                comments: 15
+            }
+        ];
+
+        const parishes = [
+            {
+                id: 1,
+                name: "Paroisse Saint-Michel",
+                location: "Libreville",
+                priest: "Père Jean-Baptiste",
+                phone: "+241 01 23 45 67",
+                email: "stmichel@peavc-gabon.org"
+            },
+            {
+                id: 2,
+                name: "Paroisse Sainte-Marie",
+                location: "Port-Gentil",
+                priest: "Père Emmanuel",
+                phone: "+241 01 34 56 78",
+                email: "stemarie@peavc-gabon.org"
+            },
+            {
+                id: 3,
+                name: "Paroisse Saint-Joseph",
+                location: "Franceville",
+                priest: "Père André",
+                phone: "+241 01 45 67 89",
+                email: "stjoseph@peavc-gabon.org"
+            },
+            {
+                id: 4,
+                name: "Paroisse Saint-Pierre",
+                location: "Oyem",
+                priest: "Père Matthieu",
+                phone: "+241 01 56 78 90",
+                email: "stpierre@peavc-gabon.org"
+            }
+        ];
+
+        function App() {
+            const [currentPage, setCurrentPage] = useState('accueil');
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [news, setNews] = useState(initialNews);
+            const [showNewsModal, setShowNewsModal] = useState(false);
+            const [showContactModal, setShowContactModal] = useState(false);
+
+            const handleNavClick = (page) => {
+                setCurrentPage(page);
+                setMobileMenuOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const handleAddNews = (newsData) => {
+                const newNews = {
+                    id: news.length + 1,
+                    author: "PEAVC Gabon",
+                    date: "À l'instant",
+                    content: newsData.content,
+                    image: newsData.image,
+                    likes: 0,
+                    comments: 0
+                };
+                setNews([newNews, ...news]);
+                setShowNewsModal(false);
+            };
+
+            return (
+                <>
+                    <nav>
+                        <div className="nav-container">
+                            <div className="logo-section">
+                                <div className="logo-placeholder">
+                                    <i className="fas fa-church"></i>
+                                </div>
+                                <div className="logo-text">
+                                    <h1>PEAVC GABON</h1>
+                                    <p>Petite Église Apostolique Vieille Catholique</p>
+                                </div>
+                            </div>
+                            <button 
+                                className="mobile-menu-btn"
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            >
+                                <i className={`fas fa-${mobileMenuOpen ? 'times' : 'bars'}`}></i>
+                            </button>
+                            <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
+                                <li><a href="#" className={currentPage === 'accueil' ? 'active' : ''} onClick={() => handleNavClick('accueil')}>Accueil</a></li>
+                                <li><a href="#" className={currentPage === 'apropos' ? 'active' : ''} onClick={() => handleNavClick('apropos')}>À Propos</a></li>
+                                <li><a href="#" className={currentPage === 'organisation' ? 'active' : ''} onClick={() => handleNavClick('organisation')}>Organisation</a></li>
+                                <li><a href="#" className={currentPage === 'paroisses' ? 'active' : ''} onClick={() => handleNavClick('paroisses')}>Paroisses</a></li>
+                                <li><a href="#" className={currentPage === 'actualites' ? 'active' : ''} onClick={() => handleNavClick('actualites')}>Actualités</a></li>
+                                <li><a href="#" className={currentPage === 'contact' ? 'active' : ''} onClick={() => handleNavClick('contact')}>Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    {currentPage === 'accueil' && <HomePage onNavigate={handleNavClick} />}
+                    {currentPage === 'apropos' && <AboutPage />}
+                    {currentPage === 'organisation' && <OrganizationPage />}
+                    {currentPage === 'paroisses' && <ParishesPage parishes={parishes} />}
+                    {currentPage === 'actualites' && <NewsPage news={news} setNews={setNews} />}
+                    {currentPage === 'contact' && <ContactPage />}
+
+                    {currentPage === 'actualites' && (
+                        <button 
+                            className="floating-btn"
+                            onClick={() => setShowNewsModal(true)}
+                            title="Ajouter une actualité"
+                        >
+                            <i className="fas fa-plus"></i>
+                        </button>
+                    )}
+
+                    {showNewsModal && (
+                        <NewsModal 
+                            onClose={() => setShowNewsModal(false)}
+                            onSubmit={handleAddNews}
+                        />
+                    )}
+
+                    <Footer onNavigate={handleNavClick} />
+                </>
+            );
+        }
+
+        function HomePage({ onNavigate }) {
+            return (
+                <>
+                    <section className="hero">
+                        <div className="hero-content">
+                            <h2>Bienvenue à la PEAVC Gabon</h2>
+                            <p>Petite Église Apostolique Vieille Catholique du Gabon - Une foi authentique, une tradition vivante</p>
+                            <div className="cta-buttons">
+                                <button className="btn btn-primary" onClick={() => onNavigate('apropos')}>
+                                    Découvrir notre mission
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => onNavigate('paroisses')}>
+                                    Nos paroisses
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div className="container">
+                        <section className="section">
+                            <div className="section-header">
+                                <h2>Notre Mission</h2>
+                                <div className="divider"></div>
+                                <p className="subtitle">Au service de Dieu et de son peuple</p>
+                            </div>
+
+                            <div className="cards-grid">
+                                <div className="card">
+                                    <div className="card-image">
+                                        <i className="fas fa-praying-hands"></i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h3>Spiritualité</h3>
+                                        <p>Nous cultivons une vie spirituelle profonde enracinée dans la tradition apostolique et les enseignements du Christ. La prière et les sacrements sont au cœur de notre foi.</p>
+                                    </div>
+                                </div>
+
+                                <div className="card">
+                                    <div className="card-image">
+                                        <i className="fas fa-hands-helping"></i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h3>Charité</h3>
+                                        <p>L'amour du prochain se manifeste par nos actions caritatives et notre soutien aux plus démunis. Nous sommes appelés à être les mains du Christ sur terre.</p>
+                                    </div>
+                                </div>
+
+                                <div className="card">
+                                    <div className="card-image">
+                                        <i className="fas fa-book-open"></i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h3>Enseignement</h3>
+                                        <p>La formation religieuse et l'étude de la Parole de Dieu sont essentielles pour grandir dans la foi et transmettre nos valeurs aux générations futures.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="section">
+                            <div className="section-header">
+                                <h2>Dernières Actualités</h2>
+                                <div className="divider"></div>
+                                <p className="subtitle">Restez informés de la vie de notre église</p>
+                            </div>
+
+                            {initialNews.slice(0, 2).map(item => (
+                                <div key={item.id} className="news-item">
+                                    <div className="news-header">
+                                        <div className="news-avatar">
+                                            <i className="fas fa-church"></i>
+                                        </div>
+                                        <div className="news-info">
+                                            <h4>{item.author}</h4>
+                                            <span className="news-date">{item.date}</span>
+                                        </div>
+                                    </div>
+                                    <div className="news-content">
+                                        <p>{item.content}</p>
+                                    </div>
+                                    <div className="news-actions">
+                                        <div className="news-action">
+                                            <i className="far fa-heart"></i>
+                                            <span>{item.likes} J'aime</span>
+                                        </div>
+                                        <div className="news-action">
+                                            <i className="far fa-comment"></i>
+                                            <span>{item.comments} Commentaires</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                                <button className="btn btn-primary" onClick={() => onNavigate('actualites')}>
+                                    Voir toutes les actualités
+                                </button>
+                            </div>
+                        </section>
+                    </div>
+                </>
+            );
+        }
+
+        function AboutPage() {
+            return (
+                <div className="container">
+                    <section className="section">
+                        <div className="section-header">
+                            <h2>À Propos de la PEAVC Gabon</h2>
+                            <div className="divider"></div>
+                            <p className="subtitle">Notre histoire, notre foi, notre mission</p>
+                        </div>
+
+                        <div style={{ background: 'var(--white)', padding: '3rem', borderRadius: '15px', boxShadow: '0 5px 25px rgba(0,0,0,0.08)', lineHeight: '1.9' }}>
+                            <h3 style={{ color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>Notre Histoire</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-dark)' }}>
+                                La Petite Église Apostolique Vieille Catholique du Gabon s'inscrit dans la tradition apostolique qui remonte aux premiers siècles de l'Église chrétienne. Enracinée dans la foi catholique traditionnelle, notre église maintient la succession apostolique tout en préservant l'authenticité des enseignements du Christ.
+                            </p>
+                            
+                            <h3 style={{ color: 'var(--primary-color)', marginTop: '2.5rem', marginBottom: '1.5rem', fontSize: '1.8rem' }}>Notre Foi</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-dark)' }}>
+                                Nous croyons en un seul Dieu, Père tout-puissant, créateur du ciel et de la terre. Nous professons la foi apostolique transmise de génération en génération, célébrons les sept sacrements, et honorons la Vierge Marie et les saints.
+                            </p>
+
+                            <h3 style={{ color: 'var(--primary-color)', marginTop: '2.5rem', marginBottom: '1.5rem', fontSize: '1.8rem' }}>Notre Mission au Gabon</h3>
+                            <p style={{ marginBottom: '1.5rem', color: 'var(--text-dark)' }}>
+                                Notre mission est d'annoncer l'Évangile du Christ, de célébrer les sacrements avec dignité, d'enseigner la foi catholique, et de servir les plus démunis avec compassion. Nous œuvrons pour l'unité des chrétiens et le dialogue interreligieux dans le respect et la charité.
+                            </p>
+
+                            <div style={{ background: 'var(--light-bg)', padding: '2rem', borderRadius: '10px', marginTop: '2rem', borderLeft: '4px solid var(--secondary-color)' }}>
+                                <h4 style={{ color: 'var(--primary-color)', marginBottom: '1rem' }}>Nos Valeurs Fondamentales</h4>
+                                <ul style={{ listStyle: 'none', padding: 0 }}>
+                                    <li style={{ marginBottom: '0.8rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        <i className="fas fa-cross" style={{ color: 'var(--secondary-color)' }}></i>
+                                        <span>Fidélité à la tradition apostolique</span>
+                                    </li>
+                                    <li style={{ marginBottom: '0.8rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        <i className="fas fa-heart" style={{ color: 'var(--secondary-color)' }}></i>
+                                        <span>Amour et service du prochain</span>
+                                    </li>
+                                    <li style={{ marginBottom: '0.8rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        <i className="fas fa-dove" style={{ color: 'var(--secondary-color)' }}></i>
+                                        <span>Vie dans l'Esprit Saint</span>
+                                    </li>
+                                    <li style={{ marginBottom: '0.8rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                        <i className="fas fa-hands" style={{ color: 'var(--secondary-color)' }}></i>
+                                        <span>Solidarité et entraide communautaire</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function OrganizationPage() {
+            return (
+                <div className="container">
+                    <section className="section">
+                        <div className="section-header">
+                            <h2>Notre Organisation</h2>
+                            <div className="divider"></div>
+                            <p className="subtitle">Structure et hiérarchie de l'église</p>
+                        </div>
+
+                        <div className="cards-grid">
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-crown"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Archevêque Métropolitain</h3>
+                                    <p>Chef spirituel de la PEAVC Gabon, responsable de la supervision pastorale et de la direction spirituelle de toutes les paroisses du territoire national.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-envelope"></i> archeveque@peavc-gabon.org</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-users-cog"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Conseil Épiscopal</h3>
+                                    <p>Composé de l'Archevêque et des évêques auxiliaires, le conseil prend les décisions importantes concernant la vie de l'église et son développement.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-envelope"></i> conseil@peavc-gabon.org</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-church"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Curés de Paroisses</h3>
+                                    <p>Prêtres responsables de l'animation pastorale, de la célébration des sacrements et de l'accompagnement spirituel des fidèles dans chaque paroisse.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-map-marker-alt"></i> 4 paroisses actives</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-hands-helping"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Services Diocésains</h3>
+                                    <p>Équipes au service de la pastorale : catéchèse, liturgie, jeunesse, famille, caritas, communication et exorcisme spirituel.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-envelope"></i> services@peavc-gabon.org</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-book-reader"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Formation</h3>
+                                    <p>Formation continue du clergé et des laïcs engagés, séminaires, retraites spirituelles et programmes de développement personnel et communautaire.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-envelope"></i> formation@peavc-gabon.org</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-image">
+                                    <i className="fas fa-balance-scale"></i>
+                                </div>
+                                <div className="card-content">
+                                    <h3>Exorcisme & Aide Spirituelle</h3>
+                                    <p>Service spécialisé d'accompagnement spirituel, prières de libération, exorcisme et soutien aux personnes confrontées à des difficultés d'ordre spirituel.</p>
+                                    <div className="card-meta">
+                                        <span><i className="fas fa-phone"></i> Sur rendez-vous</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function ParishesPage({ parishes }) {
+            return (
+                <div className="container">
+                    <section className="section">
+                        <div className="section-header">
+                            <h2>Nos Paroisses</h2>
+                            <div className="divider"></div>
+                            <p className="subtitle">Communautés de foi à travers le Gabon</p>
+                        </div>
+
+                        <div className="cards-grid">
+                            {parishes.map(parish => (
+                                <div key={parish.id} className="parish-card">
+                                    <div className="parish-icon">
+                                        <i className="fas fa-church"></i>
+                                    </div>
+                                    <h3>{parish.name}</h3>
+                                    <div className="parish-info">
+                                        <p>
+                                            <i className="fas fa-map-marker-alt"></i>
+                                            <span>{parish.location}</span>
+                                        </p>
+                                        <p>
+                                            <i className="fas fa-user"></i>
+                                            <span>{parish.priest}</span>
+                                        </p>
+                                        <p>
+                                            <i className="fas fa-phone"></i>
+                                            <span>{parish.phone}</span>
+                                        </p>
+                                        <p>
+                                            <i className="fas fa-envelope"></i>
+                                            <span>{parish.email}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function NewsPage({ news, setNews }) {
+            return (
+                <div className="container">
+                    <section className="section">
+                        <div className="section-header">
+                            <h2>Fil d'Actualités</h2>
+                            <div className="divider"></div>
+                            <p className="subtitle">Suivez la vie de notre église</p>
+                        </div>
+
+                        {news.map(item => (
+                            <div key={item.id} className="news-item">
+                                <div className="news-header">
+                                    <div className="news-avatar">
+                                        <i className="fas fa-church"></i>
+                                    </div>
+                                    <div className="news-info">
+                                        <h4>{item.author}</h4>
+                                        <span className="news-date">{item.date}</span>
+                                    </div>
+                                </div>
+                                <div className="news-content">
+                                    <p>{item.content}</p>
+                                </div>
+                                {item.image && (
+                                    <div className="news-media">
+                                        <img src={item.image} alt="Actualité" />
+                                    </div>
+                                )}
+                                <div className="news-actions">
+                                    <div className="news-action">
+                                        <i className="far fa-heart"></i>
+                                        <span>{item.likes} J'aime</span>
+                                    </div>
+                                    <div className="news-action">
+                                        <i className="far fa-comment"></i>
+                                        <span>{item.comments} Commentaires</span>
+                                    </div>
+                                    <div className="news-action">
+                                        <i className="far fa-share-square"></i>
+                                        <span>Partager</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                </div>
+            );
+        }
+
+        function ContactPage() {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: ''
+            });
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                alert('Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
+                setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+            };
+
+            return (
+                <div className="container">
+                    <section className="section">
+                        <div className="section-header">
+                            <h2>Contactez-nous</h2>
+                            <div className="divider"></div>
+                            <p className="subtitle">Nous sommes à votre écoute</p>
+                        </div>
+
+                        <div className="contact-container">
+                            <div className="contact-info">
+                                <h3>Nos Coordonnées</h3>
+                                
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div className="contact-details">
+                                        <h4>Adresse</h4>
+                                        <p>Siège de la PEAVC Gabon<br/>Libreville, Gabon</p>
+                                    </div>
+                                </div>
+
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-phone"></i>
+                                    </div>
+                                    <div className="contact-details">
+                                        <h4>Téléphone</h4>
+                                        <p>+241 XX XX XX XX</p>
+                                    </div>
+                                </div>
+
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-envelope"></i>
+                                    </div>
+                                    <div className="contact-details">
+                                        <h4>Email</h4>
+                                        <p>contact@peavc-gabon.org</p>
+                                    </div>
+                                </div>
+
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        <i className="fas fa-clock"></i>
+                                    </div>
+                                    <div className="contact-details">
+                                        <h4>Horaires</h4>
+                                        <p>Lun - Ven: 9h00 - 17h00<br/>Sam: 9h00 - 12h00</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="contact-form">
+                                <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary-color)' }}>Envoyez-nous un message</h3>
+                                <form onSubmit={handleSubmit}>
+                                    <div className="form-group">
+                                        <label>Nom complet *</label>
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                            placeholder="Votre nom"
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Email *</label>
+                                        <input 
+                                            type="email" 
+                                            required 
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                            placeholder="votre.email@exemple.com"
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Téléphone</label>
+                                        <input 
+                                            type="tel" 
+                                            value={formData.phone}
+                                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                                            placeholder="+241 XX XX XX XX"
+                                        />
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Sujet *</label>
+                                        <select 
+                                            required
+                                            value={formData.subject}
+                                            onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                                        >
+                                            <option value="">Sélectionnez un sujet</option>
+                                            <option value="information">Demande d'information</option>
+                                            <option value="sacrament">Demande de sacrement</option>
+                                            <option value="spiritual">Accompagnement spirituel</option>
+                                            <option value="exorcism">Aide spirituelle / Exorcisme</option>
+                                            <option value="other">Autre</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div className="form-group">
+                                        <label>Message *</label>
+                                        <textarea 
+                                            required
+                                            value={formData.message}
+                                            onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                            placeholder="Votre message..."
+                                        ></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                                        <i className="fas fa-paper-plane"></i> Envoyer le message
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        }
+
+        function NewsModal({ onClose, onSubmit }) {
+            const [content, setContent] = useState('');
+            const [image, setImage] = useState(null);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (content.trim()) {
+                    onSubmit({ content, image });
+                    setContent('');
+                    setImage(null);
+                }
+            };
+
+            const handleImageChange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        setImage(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={onClose}>
+                            <i className="fas fa-times"></i>
+                        </button>
+                        <h2>Publier une actualité</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label>Contenu de la publication *</label>
+                                <textarea 
+                                    required
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    placeholder="Partagez une actualité, un événement, une réflexion..."
+                                    style={{ minHeight: '150px' }}
+                                ></textarea>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>Ajouter une image</label>
+                                <input 
+                                    type="file" 
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+                            </div>
+
+                            {image && (
+                                <div style={{ marginBottom: '1rem' }}>
+                                    <img src={image} alt="Preview" style={{ maxWidth: '100%', borderRadius: '10px' }} />
+                                </div>
+                            )}
+                            
+                            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                                <i className="fas fa-paper-plane"></i> Publier
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        function Footer({ onNavigate }) {
+            return (
+                <footer>
+                    <div className="footer-content">
+                        <div className="footer-section">
+                            <h3>PEAVC Gabon</h3>
+                            <p>Petite Église Apostolique Vieille Catholique du Gabon</p>
+                            <p>Une foi authentique, une tradition vivante, au service de Dieu et de son peuple.</p>
+                            <div className="social-links">
+                                <a href="#" title="Facebook"><i className="fab fa-facebook-f"></i></a>
+                                <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
+                                <a href="#" title="Instagram"><i className="fab fa-instagram"></i></a>
+                                <a href="#" title="YouTube"><i className="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+
+                        <div className="footer-section">
+                            <h3>Navigation</h3>
+                            <a href="#" onClick={() => onNavigate('accueil')}>Accueil</a>
+                            <a href="#" onClick={() => onNavigate('apropos')}>À Propos</a>
+                            <a href="#" onClick={() => onNavigate('organisation')}>Organisation</a>
+                            <a href="#" onClick={() => onNavigate('paroisses')}>Paroisses</a>
+                            <a href="#" onClick={() => onNavigate('actualites')}>Actualités</a>
+                            <a href="#" onClick={() => onNavigate('contact')}>Contact</a>
+                        </div>
+
+                        <div className="footer-section">
+                            <h3>Contact</h3>
+                            <p><i className="fas fa-map-marker-alt"></i> Libreville, Gabon</p>
+                            <p><i className="fas fa-phone"></i> +241 XX XX XX XX</p>
+                            <p><i className="fas fa-envelope"></i> contact@peavc-gabon.org</p>
+                        </div>
+
+                        <div className="footer-section">
+                            <h3>Horaires de messe</h3>
+                            <p>Dimanche: 9h00 et 11h00</p>
+                            <p>Semaine: 18h30</p>
+                            <p>Samedi: 18h00</p>
+                            <p style={{ marginTop: '1rem', fontStyle: 'italic' }}>Confessions sur rendez-vous</p>
+                        </div>
+                    </div>
+                    
+                    <div className="footer-bottom">
+                        <p>&copy; 2024 PEAVC Gabon. Tous droits réservés. | Que la paix du Christ soit avec vous ✝</p>
+                    </div>
+                </footer>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
